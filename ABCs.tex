@@ -1,0 +1,260 @@
+\documentclass[a4paper,15pt,twoside,zihao=-4]{article}
+\usepackage[left=2.50cm, right=2.50cm, top=2.50cm, bottom=2.50cm]{geometry}
+%\usepackage[margin=2cm]{geometry}
+\pagenumbering{arabic}
+%\pagenumbering{times}
+\usepackage{times,listings,float,indentfirst,tikz}
+\usepackage{booktabs,mathtools,amsmath,graphicx,color,fancyhdr,algorithm,algorithmic}
+\usepackage{caption,tikz,accents,bm,tabularx,delarray,blindtext,lastpage,mathrsfs}
+\usepackage[UTF8]{ctex}
+\usepackage{amssymb}
+\usepackage{makecell}
+\usepackage{geometry}
+\usepackage{subcaption}
+\floatname{algorithm}{{Algorithm}}
+\renewcommand{\algorithmicrequire}{\textbf{输入:}}
+\renewcommand{\algorithmicensure}{\textbf{输出:}}
+\lstset{language=Matlab}
+%\pagestyle{fancy}
+\fancyhf{}
+\title{\bf{圆形人工边界上高阶方位导数的热方程局部人工边界条件}}
+\author{}
+\begin{document}
+\kaishu{}
+\maketitle
+\section*{参考文献一}
+\indent 首先引入一个圆形的人工边界,将无界定义域分为一个有界的计算域和一个无界的外部区域.在外部域上，利用时间上的拉普拉斯变换和空间上的傅里叶级数来实现特殊函数的关系.然后用有理函数逼近特殊函数之间的关系.将拉普拉斯逆变换应用于一系列简单有理函数，最终得到了相应的高阶人工边界条件，其中利用一系列辅助变量避免了高阶导数在时间和空间上的影响.\\
+\indent 考虑
+\begin{equation}
+\begin{array}{l}
+u_{t}(\mathbf{x}, t)=\alpha \Delta u(\mathbf{x}, t)+f(\mathbf{x}, t), \quad(\mathbf{x}, t) \in \Omega \times(0, T] \\
+u(\mathbf{x}, 0)=u_{0}(\mathbf{x}), \quad \mathbf{x} \in \Omega \\
+u(\mathbf{x}, t) \rightarrow 0, \quad \text { as }|\mathbf{x}| \rightarrow+\infty
+\end{array}
+\end{equation}
+其中$\Omega=\left\{(r,\theta )\mid0\le r<+\infty ,0\le\theta <2\pi \right\}.$\\
+\indent 在无界区域上考虑一个人工圆形边界:$\Gamma_R=\left\{(r,\theta )\mid r=R,0\le\theta <2\pi \right\}$,将无界区域$\Omega$分成两个部分,用$\Omega_{in}$表示计算区域,则外部区域为$\Omega_e=\left\{(r,\theta )\mid R<r<+\infty,0\le\theta <2\pi \right\}$.\\
+\indent 为了设计高阶人工边界条件,我们将外区域上的热方程方程在极坐标系中改写为:
+\begin{equation}
+\begin{array}{l}
+\displaystyle\frac{1}{\alpha} \frac{\partial u}{\partial t}=\frac{\partial^2u}{\partial r^2}+
+\frac{1}{r}\frac{\partial u}{\partial r}+\frac{1}{r^2}\frac{\partial^2u}{\partial \theta^2}, in \Omega_e \times(0, T] \\
+u\mid_{t=0}=0, in \Omega_e \\
+u\rightarrow 0, \quad \text { as }r\rightarrow+\infty
+\end{array}
+\end{equation}
+\indent 对上式利用Laplace变换,得到\\
+\begin{equation}
+\frac{s\hat{u}}{\alpha}= \frac{\partial^2\hat{u}}{\partial r^2}+
+\frac{1}{r}\frac{\partial \hat{u}}{\partial r}+\frac{1}{r^2}\frac{\partial^2\hat{u}}{\partial \theta^2}.
+\end{equation}
+\indent 设
+\begin{equation}
+\displaystyle\hat{u}(r,\theta,s)=\sum_{n=-\infty }^{\infty } C_n(r,s)e^{in\theta}.
+\end{equation}
+\indent 将(4)代入到(3)中,得到
+$$\frac{s}{\alpha}\sum_{n=-\infty }^{\infty } C_n(r,s)e^{in\theta}=
+\sum_{n=-\infty }^{\infty }\left [\frac{\partial^2C_n}{\partial r^2}+\frac{1}{r}
+\frac{\partial C_n}{\partial r}-\frac{n^2}{r^2}C_n \right ] e^{in\theta}.$$
+\indent 化简得到\\
+\begin{equation}
+r^2\frac{\partial^2C_n}{\partial r^2}+r
+\frac{\partial C_n}{\partial r}-(n^2+r^2\frac{s}{\alpha })C_n=0
+\end{equation}
+\indent 设$r=\bar{r}/\sqrt[]{s/\alpha} ,C_n(r,s)=\bar{C}_n(\bar{r},s)$,得到
+\begin{equation}
+\bar{r}^2\frac{\partial^2\bar{C}_n}{\partial \bar{r}^2}+\bar{r}
+\frac{\partial \bar{C}_n}{\partial \bar{r}}-(n^2+\bar{r}^2)\bar{C}_n=0
+\end{equation}
+\indent 等式(6)是$n$阶修正贝塞尔方程，有两个线性无关的解$K_n(\sqrt{s}r)$和$I_n(\sqrt{s}r)$,通解为
+$$\bar{C}_n(\bar{r},s)=\alpha_n(s)K_n(\sqrt{s}r)+\beta_n(s)I_n(\sqrt{s}r).$$
+\indent 根据条件(1)可知,$\beta_n(s)$=0,则$C_n=\bar{C}_n(\bar{r},s)=\alpha_n(s)K_n(\sqrt{s}r)$,结合(4)式,得到
+$$\frac{\hat{u}(r,\theta,s)}{K_0(\sqrt{s}r)}=\alpha_0(s)+\sum_{n=\pm 1}^{\infty}
+\alpha_n(s)\frac{K_n(\sqrt{s}r)}{K_0(\sqrt{s}r)}e^{in\theta}.$$
+\indent 将上述方程关于$r$和$\theta$微分,得到
+\begin{equation}
+\frac{\partial }{\partial r}\left[\frac{\hat{u}(r,\theta,s) }{K_0(\sqrt{s}r )} \right ]=
+\sum_{n=\pm 1}^{\infty}\alpha_n(s)
+\frac{\partial }{\partial r}\left[\frac{K_n(\sqrt{s}r )}{K_0(\sqrt{s}r )} \right ]e^{in\theta},
+\end{equation}
+\begin{equation}
+\frac{\partial^{2k} }{\partial \theta^{2k}}\left[\frac{\hat{u}(r,\theta,s) }{K_0(\sqrt{s}r )} \right ]=
+\sum_{n=\pm 1}^{\infty}(in)^{2k}\alpha_n(s)
+\frac{K_n(\sqrt{s}r )}{K_0(\sqrt{s}r )}e^{in\theta},
+\end{equation}
+\indent 我们假设式(7)相当于
+\begin{equation}
+\frac{\partial }{\partial r}\left[\frac{\hat{u}(r,\theta,s) }{K_0(\sqrt{s}r )} \right ]=
+\sum_{k=1}^{\infty}d_k
+\frac{\partial^{2k} }{\partial \theta^{2k}}\left[\frac{\hat{u}(r,\theta,s) }{K_0(\sqrt{s}r )} \right ],
+\end{equation}
+\indent 将(8)式代入到(9)式中
+\begin{equation}
+\frac{\partial }{\partial r}\left[\frac{\hat{u}(r,\theta,s) }{K_0(\sqrt{s}r )} \right ]=
+\sum_{n=\pm 1}^{\infty }\left [\alpha_n(s)\frac{K_n(\sqrt{s}r )}{K_0(\sqrt{s}r )}
+\sum_{k=1}^{\infty}(in)^{2k}d_k\right ]e^{in\theta},
+\end{equation}
+\indent 结合式(7)和(10),得到
+\begin{equation}
+\sum_{k=1}^{\infty } (in)^{2k}d_k=\frac{K_0(\sqrt{s}r )}{K_n(\sqrt{s}r )}
+\frac{\partial }{\partial r}\left [\frac{K_n(\sqrt{s}r )}{K_0(\sqrt{s}r )}\right ]
+= \frac{\sqrt{s}{K_n}'(\sqrt{s}r )}{K_n(\sqrt{s}r )}-\frac{\sqrt{s}{K_0}'(\sqrt{s}r )}{K_0(\sqrt{s}r )},
+\end{equation}
+\indent 在实际计算中,我们用有限项代替无穷项,如下所示
+\begin{equation}
+\sum_{k=1}^{N} (in)^{2k}d_k=\frac{K_0(\sqrt{s}r )}{K_n(\sqrt{s}r )}
+\frac{\partial }{\partial r}\left [\frac{K_n(\sqrt{s}r )}{K_0(\sqrt{s}r )}\right ]
+= \frac{\sqrt{s}{K_n}'(\sqrt{s}r )}{K_n(\sqrt{s}r )}-\frac{\sqrt{s}{K_0}'(\sqrt{s}r )}{K_0(\sqrt{s}r )},n=1,2,\cdots,N
+\end{equation}
+其中$N$是给定的正整数,并且系数$\left \{d_k\right \}(k=1,2,\cdots,N)$由矩阵形式确定
+\begin{equation}
+\begin{pmatrix}
+i^2& i^4&\cdots&i^{2N} \\
+ (2i)^2 & (2i)^4&\cdots&(2i)^{2N}\\
+ \vdots  & \vdots  &  & \vdots \\
+(Ni)^2 & (Ni)^4&\cdots&(Ni)^{2N}
+\end{pmatrix}
+\begin{pmatrix}
+ d_1\\
+ d_2\\
+ \vdots \\
+d_N
+\end{pmatrix}=
+\begin{pmatrix}
+ \frac{\sqrt{s}{K_1}'(\sqrt{s}r )}{K_1(\sqrt{s}r )}-\frac{\sqrt{s}{K_0}'(\sqrt{s}r )}{K_0(\sqrt{s}r )}\\
+ \frac{\sqrt{s}{K_2}'(\sqrt{s}r )}{K_2(\sqrt{s}r )}-\frac{\sqrt{s}{K_0}'(\sqrt{s}r )}{K_0(\sqrt{s}r )}\\
+ \vdots\\
+\frac{\sqrt{s}{K_N}'(\sqrt{s}r )}{K_N(\sqrt{s}r )}-\frac{\sqrt{s}{K_0}'(\sqrt{s}r )}{K_0(\sqrt{s}r )}
+\end{pmatrix}
+\end{equation}
+\indent 重写(9)式
+\begin{equation}
+\frac{\partial \hat{u}(r,\theta,s)}{\partial r}=
+\sum_{k=0}^{N}d_k
+\frac{\partial^{2k} \hat{u}(r,\theta,s)}{\partial \theta^{2k}},
+\end{equation}
+其中$d_0=\frac{\sqrt{s}{K_0}'(\sqrt{s}r )}{K_0(\sqrt{s}r )}$,$\left \{d_k\right \}(k=1,2,\cdots,N)$由式(13)确定.\\
+\indent 当逆拉普拉斯变换应用于等式(14)时,可以得到整体近似的人工边界条件.不幸的是,很难实现$d_k$的逆拉普拉斯变换.为了得到可处理的边界条件,一个有效的替代方法是在有限区间$s\in[s_E,s_W]$上用有理函数逼近系数$d_k$.假设存在区间$[s_E,s_W]$的分块$s_E = s_0\le s_1\le\cdots \le s_{2L} = s_W$,则对于给定的$r = R$,并使用有理近似,我们有
+\begin{equation}
+d_k(R,s)\approx \frac{P_L(s)}{Q_L(s)}=\frac{a_0+a_1s+\cdots+a_Ls^L}{1+b_1s+\cdots+b_Ls^L},
+s\in\left \{ s_0,\cdots ,s_{2L} \right \}
+\end{equation}
+\indent 式(15)等价于
+\begin{equation}
+d_k(R,s)\approx \frac{P_L(s)}{Q_L(s)}=c_{k,0}+\sum_{l=1}^{L}\frac{f_{k,l}s}{s-s_{k,l}},
+s\in\left \{ s_0,\cdots ,s_{2L} \right \}
+\end{equation}
+$s_{k,L}$是多项式$1+b_1s+\cdots+b_Ls^L$的根,$c_{k,0},f_{k,l}s$通过求解$P_L(s)=Q_L(s)(c_{k,0}+\sum_{l=1}^{L}\frac{f_{k,l}s}{s-s_{k,l}})$获得.\\
+\indent 将(16)式代入到(14)式中
+\begin{equation}
+\frac{\partial \hat{u}(r,\theta,s)}{\partial r}=
+\sum_{k=0}^{N}\left ( c_{k,0}+\sum_{l=1}^{L}\frac{f_{k,l}s}{s-s_{k,l}} \right )
+\frac{\partial^{2k} \hat{u}(r,\theta,s)}{\partial \theta^{2k}},
+\end{equation}
+\indent 将逆拉普拉斯变换直接应用于(17)式将导致高阶导数的出现.为了通过消除所有高阶导数,引入了一个辅助变量.设
+$$\hat{\varphi}_k=\frac{\partial^{2k} \hat{u}(r,\theta,s)}{\partial \theta^{2k}}
+,-\hat{w}_{k,l}=\frac{s}{s-s_{k,l}}\hat{\varphi}_k,k=0,\cdots,N,l=1,\cdots ,L .$$
+\indent (17)式被写成
+\begin{equation}
+\left\{\begin{array}{l}
+\displaystyle\frac{\partial \hat{u}}{\partial r}=\sum_{k=0}^{N} c_{k, 0} \hat{\varphi}_{k}-\sum_{k=0}^{N} \sum_{l=1}^{L} f_{k, l} \hat{\omega}_{k, l}, \\
+\hat{\varphi}_{0}=u, \\
+\displaystyle\hat{\varphi}_{k}=\frac{\partial^{2} \hat{\varphi}_{k-1}}{\partial \theta^{2}}, \quad(k=1, \ldots, N), \\
+\displaystyle-\hat{w}_{k,l}=\frac{s}{s-s_{k,l}}\hat{\varphi}_k,\left (k=0,\cdots,N,l=1,\cdots ,L\right )  .
+\end{array}\right.
+\end{equation}
+\indent 将逆拉普拉斯变换应用于式(18)并将它们与热方程耦合,我们得到了有界区域上的初边值问题
+\begin{equation}
+\left\{\begin{array}{l}
+u_{t}=\Delta u+f, \quad \text { in } \Omega_{i n} \times(0, T], \\
+\left.u\right|_{t=0}=u_{0}, \quad \text { in } \Omega_{i n}, \\
+\displaystyle\frac{\partial u}{\partial r}=\sum_{k=0}^{N} c_{k, 0} \varphi_{k}-\sum_{k=0}^{N} \sum_{l=1}^{L} f_{k, l} \omega_{k, l}, \quad \text { on } \Gamma_{R}, \\
+\varphi_{0}=u, \quad \text { on } \Gamma_{R}, \\
+\displaystyle\varphi_{k}=\frac{\partial^{2} \varphi_{k-1}}{\partial \theta^{2}}, \quad(k=1, \ldots, N), \text { on } \Gamma_{R}, \\
+\displaystyle\partial_{t} \varphi_{k}=-\partial_{t} \omega_{k, l}+s_{k, l} \omega_{k, l}, 
+\quad(k=0, \ldots, N, l=1, \ldots, L), \text { on } \Gamma_{R} .
+\end{array}\right.
+\end{equation}
+\clearpage
+\section*{参考文献二}
+\indent 我们考虑极坐标系下的经典热方程
+\begin{equation}
+\begin{array}{l}
+\displaystyle\frac{1}{\alpha} \frac{\partial u}{\partial t}=\frac{\partial^2u}{\partial r^2}+
+\frac{1}{r}\frac{\partial u}{\partial r}+\frac{1}{r^2}\frac{\partial^2u}{\partial \theta^2}+Q, in \Omega \times(0, T] \\
+u\mid_{t=0}=0 \\
+u\rightarrow 0, \quad \text { as }r\rightarrow+\infty
+\end{array}
+\end{equation}
+其中$\Omega=\left\{(r,\theta )\mid0\le r<+\infty ,0\le\theta <2\pi \right\}.$\\
+\indent 在无界区域上考虑一个人工圆形边界:$\Gamma_R=\left\{(r,\theta )\mid r=R,0\le\theta <2\pi \right\}$,将无界区域$\Omega$分成两个部分,用$\Omega_{in}$表示计算区域,则外部区域为$\Omega_e=\left\{(r,\theta )\mid R<r<+\infty,0\le\theta <2\pi \right\}$.\\
+\indent 设
+$$\mathcal{L}_1=\frac{\partial^2}{\partial r^2}+\frac{1}{r}\frac{\partial }{\partial r} ,
+\mathcal{L}_2=\frac{1}{r^2}\frac{\partial^2}{\partial \theta^2}.$$
+\indent 先引入一个简化的问题
+\begin{equation}
+\begin{array}{l}
+\displaystyle\frac{1}{\alpha} \frac{\partial u}{\partial t}=\mathcal{L}_1u,R<r<\infty  \\
+u\mid_{r=R}=u(R,t) \\
+u\mid_{t=0}=0, R<r<\infty\\
+u\rightarrow 0, \quad \text { as }r\rightarrow+\infty
+\end{array}
+\end{equation}
+\indent Laplace变换由下式定义
+\begin{equation}
+\hat{u}(r,s)=\int_{0}^{\infty }e^{-st}u(r,t)\mathrm{d}t
+\end{equation}
+\indent 通过式(21),变换函数$\hat{u}(r,s)$满足
+\begin{equation}
+\frac{s\hat{u}}{\alpha}= \frac{\partial^2\hat{u}}{\partial r^2}+
+\frac{1}{r}\frac{\partial \hat{u}}{\partial r}
+\end{equation}
+\indent 线性微分方程(23)有两个线性无关的解$K_0(\sqrt{s}r)$和$I_0(\sqrt{s}r)$,其中$K_0(x)$和$I_0(x)$是零阶修正贝塞尔函数.由于(21)的条件,得到
+\begin{equation}
+\hat{u}(r,s)=CK_0(\sqrt{s}r)
+\end{equation}
+\indent 对(24)关于$r$求微分并代入上面的微分方程,我们得到边界$\Gamma_R $上所需的单向方程
+\begin{equation}
+\frac{\partial \hat{u} }{\partial r}(R,s)=\frac{\sqrt{s}K_0'(\sqrt{s}R)}{K_0(\sqrt{s}R)}\hat{u}(R,s)
+:=w(s) \hat{u} 
+\end{equation}
+其中$$w(s)=\frac{\sqrt{s}K_0'(\sqrt{s}R)}{K_0(\sqrt{s}R)}=-\frac{\sqrt{s}K_1(\sqrt{s}R)}{K_0(\sqrt{s}R)}$$
+\indent 精确的ABC现在可以通过应用于式(25)的拉普拉斯逆变换求出,在实际的数值实现中,计算函数$w(s)$的逆拉普拉斯变换是昂贵的.相反,我们将使用由最简单的Padé近似给出的$w(s)$的近似
+\begin{equation}
+w(s)\approx \frac{\varepsilon  s+\beta}{\gamma s+\delta },\left | s-s_0 \right |\le l
+\end{equation}
+对于给定的参数值$s_0$,系数$(\varepsilon ,\beta,\gamma,\delta)$被唯一地确定.\\
+\indent 将(26)式代入到(25)中,得到
+\begin{equation}
+(\gamma s+\delta)\frac{\partial \hat{u} }{\partial r}=(\varepsilon  s+\beta)\hat{u}    
+\end{equation}
+\indent 对(27)式采用逆Laplace变换
+\begin{equation}
+\frac{\partial }{\partial t}\left (\gamma\frac{\partial u}{\partial r}-\varepsilon  u \right )
+=-\delta\frac{\partial u}{\partial r}  +\beta u 
+\end{equation}
+\indent 使用式(28)来获得算子$\mathcal{L}_1$的近似$\mathcal{L}^{(3)}_1$
+\begin{equation}
+\mathcal{L}_1\approx\mathcal{L}^{(3)}_1 =\left (\gamma\frac{\partial}{\partial r}-\varepsilon \right )^{-1}
+\left (  -\delta\frac{\partial}{\partial r}  +\beta\right ) 
+\end{equation}
+\indent 则有
+\begin{equation}
+\frac{u_t}{\alpha}=\mathcal{L}^{(3)}_1u+\mathcal{L}_2u
+\end{equation}
+\indent 将算子$\left (\gamma\frac{\partial}{\partial r}-\varepsilon \right )$乘以式(30),我们就得到了线性扩散方程在圆形人工边界$\Gamma_R$上的局部吸收边界条件
+\begin{equation}
+\frac{\gamma}{\alpha}u_{tr}-\frac{\varepsilon }{\alpha}u_t=-\delta u+\beta u-\frac{2\gamma}{R^3}u_{\theta\theta}
++\frac{\gamma}{R^2}u_{\theta\theta r}-\frac{\varepsilon }{R^2}u_{\theta\theta}
+\end{equation}
+\indent 无界区域上的热方程可以归结为有界区域上的初边值问题
+\begin{equation}
+\begin{array}{l}
+\displaystyle\frac{1}{\alpha} \frac{\partial u}{\partial t}=\frac{\partial^2u}{\partial r^2}+
+\frac{1}{r}\frac{\partial u}{\partial r}+\frac{1}{r^2}\frac{\partial^2u}{\partial \theta^2}+Q, in \Omega_{i} \times(0, T] \\
+\displaystyle\frac{\gamma}{\alpha}u_{tr}-\frac{\varepsilon }{\alpha}u_t=-\delta u+\beta u-\frac{2\gamma}{R^3}u_{\theta\theta}
++\frac{\gamma}{R^2}u_{\theta\theta r}-\frac{\varepsilon }{R^2}u_{\theta\theta},on \Gamma_R \\
+u\mid _{t=0}=0
+\end{array}
+\end{equation}
+\end{document}
